@@ -17,18 +17,25 @@ function workingHours(req, res, next) {
 
   const currentTime = DateTime.now().setZone('America/New_York');
   const currentHour = currentTime.hour;
+  const currentMinute = currentTime.minute;
+  const formattedTime = currentTime.toFormat('hh:mm a');
+  console.log(`Current Eastern Time (ET): ${formattedTime}`);
 
   const normalBusinessHours = {
-    open: 15,
-    close: 3,
+    open1: 11,  // 11 AM
+    close1: 24, // Midnight (12 AM)
+    open2: 0,   // Midnight (12 AM)
+    close2: 3   // 3 AM
   };
-  console.log(`Current ET time: ${currentTime.toFormat('hh:mm a')}`);
 
-  if (currentHour >= normalBusinessHours.open || currentHour < normalBusinessHours.close) {
-    console.log("Within business hours: Allowed");
+  if (
+    (currentHour >= normalBusinessHours.open1 && currentHour < normalBusinessHours.close1) || 
+    (currentHour >= normalBusinessHours.open2 && currentHour < normalBusinessHours.close2)
+  ) {
+    console.log(`Within business hours: ${formattedTime} ET - Allowed`);
     next();
   } else {
-    console.log("Outside business hours: Redirecting to denied.html");
+    console.log(`Outside business hours: ${formattedTime} ET - Redirecting to denied.html`);
     res.sendFile(path.resolve('public', 'denied.html'));
   }
 }
@@ -36,8 +43,18 @@ function workingHours(req, res, next) {
 app.use(workingHours);
 app.use(express.static(path.resolve('public')));
 
+app.get('/current-time', (req, res) => {
+  const currentTime = DateTime.now().setZone('America/New_York');
+  res.json({ 
+    message: "Current Eastern Time", 
+    time: currentTime.toFormat('hh:mm a'),
+    hour: currentTime.hour,
+    minute: currentTime.minute
+  });
+});
+
 app.get('/', (req, res) => {
-  console.log("Serving denied.html");
+  console.log("Auto: Serving denied.html");
   res.sendFile(path.resolve('public', 'denied.html'));
 });
 
