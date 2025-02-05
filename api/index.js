@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const { DateTime } = require('luxon');
 
 const app = express();
 
@@ -14,13 +15,14 @@ function workingHours(req, res, next) {
     return next();
   }
 
-  const currentTime = new Date();
-  const currentHour = currentTime.getHours();
+  const currentTime = DateTime.now().setZone('America/New_York');
+  const currentHour = currentTime.hour;
 
   const normalBusinessHours = {
     open: 15,
     close: 3,
   };
+  console.log(`Current ET time: ${currentTime.toFormat('hh:mm a')}`);
 
   if (currentHour >= normalBusinessHours.open || currentHour < normalBusinessHours.close) {
     console.log("Within business hours: Allowed");
