@@ -1,4 +1,4 @@
-const express = require ('expres');
+const express = require ('express');
 const path = require ('path');
 
 const app = express();
@@ -26,7 +26,7 @@ function workingHours (req, res, next){
 		console.log("Within business hours: Allowed");
 		next();
 	} else {
-		console.log("Outside business hours: Redirecting to denied.html);
+		console.log("Outside business hours: Redirecting to denied.html");
 		res.sendFile(path.join(__dirname, 'public', 'denied.html'));
 	}
 }
@@ -38,8 +38,8 @@ app.get('/Yuemeng_Song_Resume.pdf', (req, res) => {
 	res.sendFIle(path.join(__dirname, 'public', 'Yuemeng_Song_Resume.pdf'));
 });
 
-app.get('/', (req, rers) => {
-	res.sendFIle(path.join(__dirname, 'public', 'index.html'));
+app.get('/', (req, res) => {
+	res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 module.exports = app;
