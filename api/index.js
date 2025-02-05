@@ -25,7 +25,6 @@ function workingHours(req, res, next) {
     close: 3 
   };
 
-  console.log(`Is within business hours? ${isWithinBusinessHours ? 'Yes' : 'No'}`);
   if (req.path === '/') {
     if (currentHour >= normalBusinessHours.open || currentHour <= normalBusinessHours.close) {
       return res.sendFile(path.resolve('public', 'Yuemeng_Song_Resume.pdf'));
