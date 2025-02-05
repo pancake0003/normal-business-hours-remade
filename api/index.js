@@ -35,8 +35,8 @@ app.use(workingHours);
 app.use(express.static(path.resolve('public')));
 
 app.get('/', (req, res) => {
-  console.log("Serving index.html");
-  res.sendFile(path.resolve('public', 'index.html'));
+  console.log("Serving denied.html");
+  res.sendFile(path.resolve('public', 'denied.html'));
 });
 
 app.get('/api', (req, res) => {
